@@ -243,10 +243,6 @@ geom_step(ggplot2::aes(x = .data$logtime,
   )
 plt_loglog
 ```
-```{r}
-
-asdasd
-```
 
  ### Cox Model
  
