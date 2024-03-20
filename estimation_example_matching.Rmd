@@ -218,12 +218,17 @@ plt <- plot_survival(
 plt
 ```
 
+```{r}
+surv <- plt$data
+
+surv[surv$time == max(surv$time), ]
+1-(0.001370489/0.002667872)
+```
+
 The proportional hazards is checked by means of the loglog curve using the 
 information from the survival curve
 
 ```{r}
-surv <- plt$data
-
 surv$loglog <- log(-log(surv$surv))
 
 surv$logtime <- log(surv$time)
