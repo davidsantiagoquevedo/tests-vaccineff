@@ -87,8 +87,7 @@ get_censoring_date_par_vacc <- function(matched_cohort,
           (matched_cohort$vacc_status == "v") &
           ((matched_cohort[[censoring_date_match]] > calendar_time) |
              is.na(matched_cohort[[censoring_date_match]])) &
-          ((matched_cohort[[censoring_date_match]] >
-              matched_cohort[[outcome_date]]) |
+          ((matched_cohort[[outcome_date]] > calendar_time) |
              is.na(matched_cohort[[outcome_date]])),
         yes =  as.character(calendar_time),
         no = as.character(matched_cohort$censoring_date_par_vacc)
@@ -165,6 +164,8 @@ subclass_new_censored_ <- matched_cohort[
 matched_cohort[
   (matched_cohort$subclass %in% subclass_new_censored_),
 ]
+
+new_matches[new_matches$subclass == 1, ]
 
 coh_coverage(data = cohortdata,
   vacc_date_col = rolling_date,
