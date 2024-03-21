@@ -3,14 +3,8 @@ title: "Example of use vaccineff: static matching"
 author: "David Santiago Quevedo"
 date: "2024-03-12"
 output:
-  html_document:
-    css: style.css
-  pdf_document: default
-image: null
-editor_options:
-  markdown:
-    wrap: 72
-licenses: "CC-BY"
+  md_document:
+    variant: markdown_github
 ---
 
 ```{r setup, include=FALSE} 
