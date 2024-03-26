@@ -158,13 +158,49 @@ matched_cohort$censoring_date_par_vacc <-
     calendar_time = calendar_time
   )
 
-subclass_new_censored_ <- matched_cohort[
+
+# previously matched registers
+id_pre_matched <-  matched_cohort[
   (matched_cohort$id %in% new_matches$id),
+]$id
+
+# extract old subclasses of new censored registers
+subclass_new_censored <- matched_cohort[
+  !is.na(matched_cohort$censoring_date_par_vacc) &
+    matched_cohort$censoring_date_par_vacc == calendar_time,
 ]$subclass
 
-matched_cohort[
-  (matched_cohort$subclass %in% subclass_new_censored_),
+# extract id's of accepted transitions for u to v
+# a transitio is accepted if ex-partner is new censored
+id_accepted_u_to_v <- matched_cohort[
+  matched_cohort$subclass %in% subclass_new_censored &
+    matched_cohort$vacc_status == "u",
+]$id
+
+# extract id's of rejected transitions for u to v
+id_rejected_u_to_v <- id_pre_matched[
+  !(id_pre_matched %in% id_accepted_u_to_v)
 ]
+
+# keep track of censored registers by new vaccinated
+new_censored <- matched_cohort[
+  matched_cohort$subclass %in% subclass_new_censored
+]
+
+# remove old unvaccinated register of accepted transition u to v
+matched_cohort <- matched_cohort[
+  !(matched_cohort$id %in% id_accepted_u_to_v)
+]
+
+# remove new vaccinated register of rejected transition u to v
+new_matches <- new_matches[
+  !(new_matches$id %in% id_rejected_u_to_v)
+]
+
+matched_cohort <- rbind(matched_cohort, new_matches)
+
+
+# Coverage manual check
 
 coh_coverage(data = cohortdata,
   vacc_date_col = rolling_date,
