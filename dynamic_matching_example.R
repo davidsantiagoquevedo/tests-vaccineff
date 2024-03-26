@@ -207,5 +207,6 @@ coh_coverage(data = cohortdata,
   unit = "day"
 )
 
+
 table(new_vaccinated$immunization, useNA = "ifany")
 head(sort(unvaccinated[!is.na(unvaccinated$immunization), ]$immunization))
